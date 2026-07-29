@@ -110,3 +110,16 @@ if st.button("🚀 Screen Candidates", type="primary"):
             st.markdown(f"**✅ Matched skills:** {', '.join(r['matched_skills']) or '—'}")
             st.markdown(f"**❌ Missing skills:** {', '.join(r['missing_skills']) or '—'}")
             st.markdown(f"**Justification:** {r['justification']}")
+
+            # ---------- Footer ----------
+st.markdown("---")  # a horizontal divider line
+st.markdown(
+    """
+    <div style='text-align: center; color: gray; font-size: 0.85em; padding: 10px;'>
+        Built by <a href='https://github.com/RoyMirul' target='_blank'>Amirul Azham</a>
+        · AI Resume Screener · Powered by Google Gemini
+    </div>
+    """,
+    unsafe_allow_html=True,
+    
+)
