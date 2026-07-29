@@ -17,14 +17,19 @@ Google's Gemini API. Built as a 3-day prototype challenge.
 
 ## Run locally
 1. Clone the repo and create a virtual environment:
+
 python -m venv venv
+
 source venv/Scripts/activate # Windows Git Bash
+
 pip install -r requirements.txt
 
 2. Add your Gemini API key. Create a `.env` file:
+
 GEMINI_API_KEY=your_key_here
 
 3. Run the app:
+
 python -m streamlit run app.py
 
 
