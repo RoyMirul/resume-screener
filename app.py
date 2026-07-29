@@ -17,11 +17,22 @@ st.set_page_config(page_title="AI Resume Screener", page_icon="📄", layout="wi
 st.title("📄 AI Resume Screener")
 st.caption("Upload a job description and candidate resumes to get an AI-ranked shortlist.")
 
-# Near the top, after the caption:
-blind_mode = st.checkbox(
-    "🕶️ Blind screening (ignore names & personal identifiers to reduce bias)",
-    value=False,
-)
+# ---------- Sidebar (#4) ----------
+with st.sidebar:
+    st.header("ℹ️ About")
+    st.write("An AI tool that ranks candidate resumes against a job description using Google Gemini.")
+    st.markdown(
+        "**How it works:**\n"
+        "1. Paste a job description\n"
+        "2. Upload resumes (max 10)\n"
+        "3. Click **Screen Candidates**"
+    )
+    st.divider()
+    blind_mode = st.checkbox("🕶️ Blind screening (reduce bias)")
+    st.caption("Ignores names & personal identifiers.")
+    st.divider()
+    st.caption("**Scoring rubric:**")
+    st.caption("Skills 40 · Experience 35 · Evidence 20 · Education 5")
 
 # ---------- Inputs ----------
 col1, col2 = st.columns(2)
@@ -89,7 +100,14 @@ if st.button("🚀 Screen Candidates", type="primary"):
     # --- Rank ---
     results.sort(key=lambda r: r["score"], reverse=True)
 
-    # --- Summary table ---
+    # --- Summary metrics (#2) ---
+    st.subheader("📊 Summary")
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Total Screened", len(results))
+    c2.metric("Strong Fits", sum(1 for r in results if r["recommendation"] == "Strong Fit"))
+    c3.metric("Top Score", max(r["score"] for r in results))
+
+    # --- Ranked table with color-coded Fit (#1) ---
     st.subheader("🏆 Ranked Shortlist")
     table = pd.DataFrame([
         {
@@ -100,12 +118,34 @@ if st.button("🚀 Screen Candidates", type="primary"):
         }
         for i, r in enumerate(results)
     ])
-    st.dataframe(table, use_container_width=True, hide_index=True)
 
-    # --- Detailed per-candidate breakdown ---
+    def color_fit(val):
+        colors = {
+            "Strong Fit": "background-color: #1b5e20; color: white;",
+            "Possible Fit": "background-color: #e65100; color: white;",
+            "Weak Fit": "background-color: #b71c1c; color: white;",
+        }
+        return colors.get(val, "")
+
+    styled = table.style.applymap(color_fit, subset=["Fit"])
+    st.dataframe(styled, use_container_width=True, hide_index=True)
+
+    # --- Download as CSV (#6) ---
+    csv = table.to_csv(index=False)
+    st.download_button(
+        "📥 Download shortlist (CSV)",
+        csv,
+        "shortlist.csv",
+        "text/csv",
+    )
+
+    # --- Detailed per-candidate breakdown (with medals + score bar #5) ---
     st.subheader("🔍 Candidate Details")
+    medals = {0: "🥇", 1: "🥈", 2: "🥉"}
     for i, r in enumerate(results):
-        with st.expander(f"#{i+1}  {r['candidate_name']}  —  {r['score']}/100  ({r['recommendation']})"):
+        rank_label = medals.get(i, f"#{i+1}")
+        with st.expander(f"{rank_label}  {r['candidate_name']} — {r['score']}/100 ({r['recommendation']})"):
+            st.progress(r["score"] / 100)   # visual score bar (#5)
             st.markdown(f"**Years of experience:** {r['years_experience']}")
             st.markdown(f"**✅ Matched skills:** {', '.join(r['matched_skills']) or '—'}")
             st.markdown(f"**❌ Missing skills:** {', '.join(r['missing_skills']) or '—'}")
