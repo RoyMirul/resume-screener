@@ -9,7 +9,7 @@ from google.genai import types
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-MODEL = "gemini-2.0-flash"  # more generous free daily quota than 3.6-flash
+MODEL = "gemini-3.6-flash" 
 
 def get_api_key():
     key = os.getenv("GEMINI_API_KEY")
