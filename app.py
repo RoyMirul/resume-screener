@@ -127,7 +127,7 @@ if st.button("🚀 Screen Candidates", type="primary"):
         }
         return colors.get(val, "")
 
-    styled = table.style.applymap(color_fit, subset=["Fit"])
+    styled = table.style.map(color_fit, subset=["Fit"])
     st.dataframe(styled, use_container_width=True, hide_index=True)
 
     # --- Download as CSV (#6) ---
