@@ -1,0 +1,26 @@
+Job Title: Junior AI Automation Engineer
+
+About the Role:
+We are looking for a Junior AI Automation Engineer (0-2 years of experience) to help build AI-powered automation tools. You will work with large language model (LLM) APIs, build simple workflows and prototypes, and help integrate AI into our internal processes.
+
+Responsibilities:
+- Build and test AI automation scripts and prototypes
+- Work with LLM APIs (such as OpenAI, Gemini, or similar)
+- Write clean, maintainable Python code
+- Parse and process data from various file formats
+- Collaborate with the team to identify automation opportunities
+
+Required Skills:
+- Python programming (basic to intermediate)
+- Familiarity with REST APIs
+- Basic understanding of LLMs / generative AI
+- Problem-solving and willingness to learn
+- Version control with Git
+
+Nice to Have:
+- Experience with Streamlit or similar UI frameworks
+- Exposure to prompt engineering
+- Understanding of JSON and data structures
+- Any personal or academic AI projects
+
+Experience Level: 0-2 years (entry level / junior)
